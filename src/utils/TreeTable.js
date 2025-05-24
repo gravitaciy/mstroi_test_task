@@ -29,17 +29,18 @@ export default class TreeTable {
 
   // Удалить элемент и всех его потомков
   remove(id) {
+    // Новый способ: BFS для поиска всех потомков
     const toRemove = new Set([id]);
-    let changed;
-    do {
-      changed = false;
+    const queue = [id];
+    while (queue.length) {
+      const current = queue.shift();
       this.items.forEach(item => {
-        if (toRemove.has(item.parent)) {
+        if (item.parent === current && !toRemove.has(item.id)) {
           toRemove.add(item.id);
-          changed = true;
+          queue.push(item.id);
         }
       });
-    } while (changed);
+    }
     this.items = this.items.filter(item => !toRemove.has(item.id));
   }
 

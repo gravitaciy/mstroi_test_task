@@ -28,7 +28,12 @@ const onDragEnd = inject('onDragEnd')
     >
       <td :style="{ paddingLeft: (level * 24) + 'px' }">
         <template v-if="editing[node.id] !== undefined">
-          <input v-model="editing[node.id]" style="width:70%" />
+          <input
+            v-model="editing[node.id]"
+            :id="'edit-input-' + node.id"
+            :name="'edit-input-' + node.id"
+            style="width:70%"
+          />
           <button @click="saveEdit(node.id)">Сохранить</button>
           <button @click="cancelEdit(node.id)">Отмена</button>
         </template>
