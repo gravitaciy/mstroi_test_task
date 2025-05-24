@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue'
-import TreeTable from '../utils/TreeTable'
+import { ref, computed, provide } from 'vue'
+import TreeTable from '../utils/TreeTable.js'
+import TreeRows from './TreeRows.vue'
 
 // Пример начальных данных
 const initialItems = [
@@ -54,6 +55,17 @@ function onDrop(targetId) {
 function onDragEnd() {
   dragId.value = null
 }
+
+provide('mode', mode)
+provide('editing', editing)
+provide('startEdit', startEdit)
+provide('saveEdit', saveEdit)
+provide('cancelEdit', cancelEdit)
+provide('addChild', addChild)
+provide('removeItem', removeItem)
+provide('onDragStart', onDragStart)
+provide('onDrop', onDrop)
+provide('onDragEnd', onDragEnd)
 </script>
 
 <template>
@@ -74,60 +86,4 @@ function onDragEnd() {
       </tbody>
     </table>
   </div>
-</template>
-
-<script>
-// Вложенный компонент для рекурсивного отображения строк
-export default {
-  components: {
-    TreeRows: {
-      props: ['nodes', 'level'],
-      inject: ['mode', 'editing', 'startEdit', 'saveEdit', 'cancelEdit', 'addChild', 'removeItem', 'onDragStart', 'onDrop', 'onDragEnd'],
-      template: `
-        <template v-for="node in nodes">
-          <tr
-            :draggable="mode==='edit'"
-            @dragstart="onDragStart(node.id)"
-            @dragover.prevent
-            @drop="onDrop(node.id)"
-            @dragend="onDragEnd"
-          >
-            <td :style="{ paddingLeft: (level * 24) + 'px' }">
-              <template v-if="editing[node.id] !== undefined">
-                <input v-model="editing[node.id]" style="width:70%" />
-                <button @click="saveEdit(node.id)">Сохранить</button>
-                <button @click="cancelEdit(node.id)">Отмена</button>
-              </template>
-              <template v-else>
-                {{ node.label }}
-                <span v-if="mode==='edit'">
-                  <button @click="startEdit(node.id, node.label)">✏️</button>
-                </span>
-              </template>
-            </td>
-            <td v-if="mode==='edit'">
-              <button @click="addChild(node.id)">➕</button>
-              <button @click="removeItem(node.id)">🗑️</button>
-            </td>
-          </tr>
-          <TreeRows v-if="node.children && node.children.length" :nodes="node.children" :level="level+1" />
-        </template>
-      `
-    }
-  },
-  provide() {
-    return {
-      mode: this.mode,
-      editing: this.editing,
-      startEdit: this.startEdit,
-      saveEdit: this.saveEdit,
-      cancelEdit: this.cancelEdit,
-      addChild: this.addChild,
-      removeItem: this.removeItem,
-      onDragStart: this.onDragStart,
-      onDrop: this.onDrop,
-      onDragEnd: this.onDragEnd
-    }
-  }
-}
-</script> 
+</template> 
