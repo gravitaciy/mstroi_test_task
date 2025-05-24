@@ -106,7 +106,7 @@ const columnDefs = computed(() => {
           }
           return `<button data-action='edit' data-id='${id}'>✏️</button>`
         },
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         suppressMovable: true
       },
       {
@@ -114,7 +114,7 @@ const columnDefs = computed(() => {
         field: 'add',
         width: 60,
         cellRenderer: (params) => `<button data-action='add' data-id='${params.data.id}'>➕</button>`,
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         suppressMovable: true
       },
       {
@@ -122,7 +122,7 @@ const columnDefs = computed(() => {
         field: 'delete',
         width: 60,
         cellRenderer: (params) => `<button data-action='delete' data-id='${params.data.id}'>🗑️</button>`,
-        suppressMenu: true,
+        suppressHeaderMenuButton: true,
         suppressMovable: true
       }
     )
@@ -152,7 +152,7 @@ function onCellClicked(event) {
 // AgGrid настройки (без treeData, без autoGroupColumnDef, с getRowId)
 const gridOptions = {
   animateRows: true,
-  getRowId: params => params.data.id,
+  getRowId: params => String(params.data.id),
   rowDragManaged: mode.value === 'edit',
   onRowDragEnd,
   onCellClicked
