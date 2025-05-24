@@ -73,6 +73,7 @@ provide('onDragEnd', onDragEnd)
     <div style="margin-bottom: 1em">
       <button @click="setMode('view')" :disabled="mode==='view'">Просмотр</button>
       <button @click="setMode('edit')" :disabled="mode==='edit'">Редактировать</button>
+      <button v-if="mode==='edit'" @click="addChild(null)" style="margin-left:1em">Добавить корневой элемент</button>
     </div>
     <table border="1" cellpadding="4" cellspacing="0" style="width:100%">
       <thead>
