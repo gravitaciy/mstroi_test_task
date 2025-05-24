@@ -1,11 +1,15 @@
 <script>
-// import TreeTable from './components/TreeTable.vue'
+import TreeTable from './components/TreeTable.vue'
 import TestAgGrid from './components/TestAgGrid.vue'
+
+export default {
+  components: { TreeTable, TestAgGrid }
+}
 </script>
 
 <template>
   <main>
-    <!-- <TreeTable /> -->
+    <TreeTable />
     <TestAgGrid />
   </main>
 </template>
